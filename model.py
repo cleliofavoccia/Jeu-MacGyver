@@ -60,7 +60,7 @@ class Labyrinth:
     floor_image = pygame.image.load("floor.png")
 
     # initalisation de la liste labyrinth
-    lab = []
+    lab_complete = []
 
     # géneration de la liste de liste labyrinth
 
@@ -76,13 +76,17 @@ class Labyrinth:
                     if char != "\n":
                         # Ajout caractère à la liste lign
                         lign.append(char)
-                self.lab.append(lign)
+                self.lab_complete.append(lign)
+
+    #initialisation du chemin sur lequel MacGyver, Guardian et Items pourront être
+    lab_pathway = []
+    for 
 
 
-##if __name__ == "__main__":
-    ##laby = Labyrinth()
-    ##laby.generate_labyrinth()
-    ##print(Labyrinth.lab)
+if __name__ == "__main__":
+    laby = Labyrinth()
+    laby.generate_labyrinth()
+    print(Labyrinth.lab_complete)
 
 
 

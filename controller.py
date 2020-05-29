@@ -3,9 +3,10 @@ from model import Item
 from model import MacGyver
 from model import Guardian
 from model import Labyrinth
-
+from random import randint
+from random import sample
 from pygame.locals import *
-import random
+
 
 
 class Controller:
@@ -18,32 +19,34 @@ class Controller:
     mac_gyver = MacGyver()
     guardian = Guardian()
     labyrinth = Labyrinth()
-    display = Display()
 
     def generate_items(self):
         png = ["needle.png", "serynge.png", "tube.png"]
         x = []
         y = []
+        #METHODE AVEC RANDOM.SAMPLE
+        # x_location = random.sample(range(15), 3)
+        # y_location = random.sample(range(15), 3)
+        # x.append(x_location)
+        # y.append(y_location)
+        # while self.labyrinth.lab[x[0]][y[0]] == '1' or self.labyrinth.lab[x[1]][y[1]] == '1' or self.labyrinth.lab[x[2]][y[2]] == '1':
+        #     x_location = random.sample(range(15), 3)
+        #     y_location = random.sample(range(15), 3)
+        #     x.append(x_location)
+        #     y.append(y_location)
+        # METHODE SANS RANDOM.SAMPLE
         for i in range(3):
-            x_location = random.sample(self.labyrinth.lab, 1)
-            while x_location != 1 and x_location in x:
-                x_location = random.sample(self.labyrinth.lab, 1)
-            y_location = random.sample(self.labyrinth.lab, 1)
-            while y_location != 1 and y_location in y:
-                y_location = random.sample(self.labyrinth.lab, 1)
-            x.append(self.labyrinth.lab.[x_location])
-            y.append(self.labyrinth.lab.[y_location])
+            x_location = randint(0, 15)
+            y_location = randint(0, 15)
+            while self.labyrinth.lab[x_location][y_location] == '1' and x_location in x and y_location in y:
+                x_location = randint(0, 15)
+                y_location = randint(0, 15)
+            x.append(x_location)
+            y.append(y_location)
         self.needle = Item(x[0], y[0], "needle.png")
         self.serynge = Item(x[1], y[1], "serynge.png")
         self.tube = Item(x[2], y[2], "tube.png")
 
-    def display(self):
-        display.map()
-        display.mac()
-        display.guard()
-        display.serynge()
-        display.needle()
-        display.tube()
 
     def gameloop(self): 
         while game:
@@ -110,4 +113,11 @@ class Controller:
     # gameloop()
 
 
-
+#     x_location = random.sample(self.labyrinth.lab, 1)
+        #     while x_location != 1 and x_location in x:
+        #         x_location = random.sample(self.labyrinth.lab, 1)
+        #     y_location = random.sample(self.labyrinth.lab, 1)
+        #     while y_location != 1 and y_location in y:
+        #         y_location = random.sample(self.labyrinth.lab, 1)
+        #     x.append(self.labyrinth.lab.[x_location])
+        #     y.append(self.labyrinth.lab.[y_location])
