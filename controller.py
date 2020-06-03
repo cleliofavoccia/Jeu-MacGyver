@@ -1,123 +1,111 @@
 import pygame
-from model import Item
-from model import MacGyver
-from model import Guardian
-from model import Labyrinth
-from random import randint
-from random import sample
 from pygame.locals import *
-
+import random
+from model import Guardian
+from model import Item
+from model import Labyrinth
+from model import MacGyver
+import display
 
 
 class Controller:
+    def __init__(self):
+        self.game = 1
+        self.win_inventory = 3
+        self.win = False
+        self.mac_is_alive = True
+        self.items = []
+        self.mac_gyver = MacGyver(14, 0, "MacGyver.png")
+        self.guardian = Guardian(0, 14, "Guardian.png")
+        self.labyrinth = Labyrinth("wall.png", "floor.png")
+        self.gen_lab = Labyrinth.generate_labyrinth(self.labyrinth)
+        self.disp = display.Display()
 
-    win = False
-    mac_is_alive = True
-    needle = None
-    serynge = None
-    tube = None
-    mac_gyver = MacGyver()
-    guardian = Guardian()
-    labyrinth = Labyrinth()
 
     def generate_items(self):
+        number_of_items = 3
         png = ["needle.png", "serynge.png", "tube.png"]
         x = []
         y = []
-        #METHODE AVEC RANDOM.SAMPLE
-        # x_location = random.sample(range(15), 3)
-        # y_location = random.sample(range(15), 3)
-        # x.append(x_location)
-        # y.append(y_location)
-        # while self.labyrinth.lab[x[0]][y[0]] == '1' or self.labyrinth.lab[x[1]][y[1]] == '1' or self.labyrinth.lab[x[2]][y[2]] == '1':
-        #     x_location = random.sample(range(15), 3)
-        #     y_location = random.sample(range(15), 3)
-        #     x.append(x_location)
-        #     y.append(y_location)
-        # METHODE SANS RANDOM.SAMPLE
-        for i in range(3):
-            x_location = randint(0, 15)
-            y_location = randint(0, 15)
-            while self.labyrinth.lab[x_location][y_location] == '1' and x_location in x and y_location in y:
-                x_location = randint(0, 15)
-                y_location = randint(0, 15)
+        # METHODE AVEC RANDOM.SAMPLE
+        x_location = random.sample(range(15), 3)
+        y_location = random.sample(range(15), 3)
+        for i in range(number_of_items):
+            while self.labyrinth.lab[x_location[i]][y_location[i]] == '1':
+                x_location = random.sample(range(15), 3)
+                y_location = random.sample(range(15), 3)
             x.append(x_location)
             y.append(y_location)
-        self.needle = Item(x[0], y[0], "needle.png")
-        self.serynge = Item(x[1], y[1], "serynge.png")
-        self.tube = Item(x[2], y[2], "tube.png")
+        for i in range(number_of_items):
+            self.items.append(Item(y[i], x[i], png[i]))
 
+    def display(self):
+        self.disp.load_image()
+        self.disp.map()
+        self.disp.mac()
+        self.disp.guard()
+        self.disp.items()
 
-    def gameloop(self): 
-        while game:
+    def gameloop(self):
+        while self.game == 1:
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    game = 0
+                    self.game = 0
 
                 elif event.type == KEYDOWN:
-                # move button
-                elif event.key == K_RIGHT:
-                    if mac_gyver.case_x < 24:
-                        if labyrinth.lab[mac_gyver.case_x + 1][mac_gyver.case_y] != 1
-                            mac_gyver.move_right
-                elif event.key == K_LEFT:
-                    if mac_gyver.case_x < 24:
-                        if labyrinth.lab[mac_gyver.case_x - 1][mac_gyver.case_y] != 1
-                            mac_gyver.move_left
+                    if event.key == K_RIGHT:
+                        if self.mac_gyver.case_x < 14:
+                            if self.labyrinth.lab[self.mac_gyver.case_y][self.mac_gyver.case_x + 1] != '1':
+                                self.mac_gyver.move_right()
+                    elif event.key == K_LEFT:
+                        if self.mac_gyver.case_x < 14:
+                            if self.labyrinth.lab[self.mac_gyver.case_y][self.mac_gyver.case_x - 1] != '1':
+                                self.mac_gyver.move_left()
 
-                elif event.key == K_UP:
-                    if mac_gyver.case_x < 24:
-                        if labyrinth.lab[mac_gyver.case_x][mac_gyver.case_y - 1] != 1
-                            mac_gyver.move_up
-                elif event.key == K_DOWN:
-                    if mac_gyver.case_x < 24:
-                        if labyrinth.lab[mac_gyver.case_x][mac_gyver.case_y + 1] != 1
-                            mac_gyver.move_down
+                    elif event.key == K_UP:
+                        if self.mac_gyver.case_y < 14:
+                            if self.labyrinth.lab[self.mac_gyver.case_y - 1][self.mac_gyver.case_x] != '1':
+                                self.mac_gyver.move_up()
+                    elif event.key == K_DOWN:
+                        if self.mac_gyver.case_y < 14:
+                            if self.labyrinth.lab[self.mac_gyver.case_y + 1][self.mac_gyver.case_x] != '1':
+                                self.mac_gyver.move_down()
 
         # Mise en inventaire
-        if [serynge.case_x][serynge.case_y] == [mac_gyver.case_x][mac_gyver.case_y]:
-            mac_gyver.add_serynge
-        if [needle.case_x][needle.case_y] == [mac_gyver.case_x][mac_gyver.case_y]:
-            mac_gyver.add_needle
-        if [tube.case_x][tube.case_y] == [mac_gyver.case_x][mac_gyver.case_y]:
-            mac_gyver.add_tube
+        for item in self.items:
+            if item.case_x == self.mac_gyver.case_x and item.case_y == self.mac_gyver.case_y:
+                self.mac_gyver.add_items(item)
+
+
+        # Check Victory/Loose
+        if len(self.mac_gyver.inventory) == self.win_inventory and self.guardian.case_y == self.mac_gyver.case_y and \
+                self.guardian.case_x == self.mac_gyver.case_x:
+            self.win = True
+        elif self.guardian.case_y == self.mac_gyver.case_y and self.guardian.case_x == self.mac_gyver.case_x:
+            self.mac_is_alive = False
+
+        # Victory
+        if self.win:
+            print("You win")
+            self.game = 0
+        # Loose
+        if not self.mac_is_alive:
+            print("You loose")
+            self.game = 0
 
         pygame.display.flip()
 
-        # Check Victory/Loose
-        if mac_gyver.len(mac_gyver.inventory) == 3 and [guardian.case_x][guardian.case_y] == [mac_gyver.case_x][mac_gyver.case_y]:
-            win = True
-        else:
-            mac_is_alive = False
 
-        # Victory
-        if win == True:
-            print("You win")
-            game = 0
-        # Loose
-        if mac_is_alive == False:
-            print("You loose")
-            game = 0
+if __name__ == "__main__":
+    controller = Controller()
+    # Overture Pygame window
 
+    # Generate labyrinth
+    controller.gen_lab
+    # Generate items
+    controller.generate_items()
+    # Display
+    controller.disp()
+    # Game loop
+    controller.gameloop()
 
-
-    # def init(self):
-    #     pygame.init()
-    #     game = 1
-    #
-    # # Ouverture de la fenêtre Pygame
-    # fenetre = pygame.display.set_mode((375, 375))
-    # # Tout afficher
-    # display()
-    # # Faire la boucle de jeu
-    # gameloop()
-
-
-#     x_location = random.sample(self.labyrinth.lab, 1)
-        #     while x_location != 1 and x_location in x:
-        #         x_location = random.sample(self.labyrinth.lab, 1)
-        #     y_location = random.sample(self.labyrinth.lab, 1)
-        #     while y_location != 1 and y_location in y:
-        #         y_location = random.sample(self.labyrinth.lab, 1)
-        #     x.append(self.labyrinth.lab.[x_location])
-        #     y.append(self.labyrinth.lab.[y_location])

@@ -1,92 +1,78 @@
 import os
-import pygame
-import random
 
 class MacGyver:
-    inventory = []
-    # position list
-    case_x = 0
-    case_y = 15
-    # image
-    mac_image = pygame.image.load("MacGyver.png")
+    def __init__(self, case_y, case_x, mac_image):
+        # inventory
+        self.inventory = []
+        # position list
+        self.case_y = case_y
+        self.case_x = case_x
+        # image
+        self.mac_image = mac_image
 
-    def move_right (self, case_x, case_y):
-        self.case_x + 1, case_y
-        x = case_x * 25
-        y = case_y * 25
+    def move_right(self):
+        self.case_x = self.case_x + 1
 
+    def move_left(self):
+        self.case_x = self.case_x - 1
 
-    def move_left (self, case_x, case_y):
-        self.case_x - 1, case_y
-        x = case_x * 25
-        y = case_y * 25
+    def move_up(self):
+        self.case_y = self.case_y - 1
 
-    def move_up (self, case_x, case_y):
-        case_x, case_y - 1
-        x = case_x * 25
-        y = case_y * 25
+    def move_down(self):
+        self.case_y = self.case_y + 1
 
-    def move_down (self, case_x, case_y):
-        case_x, case_y + 1
-        x = case_x * 25
-        y = case_y * 25
-
-    # prise d’objet pour son inventaire
-    def add_items(self, items):
-        self.inventory.append(items)
+    # drop items to inventory
+    def add_items(self, item):
+        self.inventory.append(item)
 
 
 class Guardian:
-    # position list
-    case_x = 15
-    case_y = 0
-    # image
-    guard_image = pygame.image.load("Guardian.png")
+    def __init__(self, case_y, case_x, guard_image):
+        # position list
+        self.case_y = case_y
+        self.case_x = case_x
+        # image
+        self.guard_image = guard_image
 
 class Item:
 
-    png = ["needle.png", "serynge.png", "tube.png"]
-    # Constructeur qui permettra au controlleur de créer les différents items du jeu
-    def __init__(self, case_x, case_y, image):
-        self.case_x = case_x
+    def __init__(self, case_y, case_x, image):
         self.case_y = case_y
+        self.case_x = case_x
         self.image = image
+        self.is_collected = False
 
 class Labyrinth:
-    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    my_file = os.path.join(THIS_FOLDER, 'labyrinth.txt')
-    # image
-    wall_image = pygame.image.load("wall.png")
-    floor_image = pygame.image.load("floor.png")
 
-    # initalisation de la liste labyrinth
-    lab_complete = []
+    def __init__(self, wall_image, floor_image):
+        THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+        my_file = os.path.join(THIS_FOLDER, 'labyrinth.txt')
+        # image
+        self.wall_image = wall_image
+        self.floor_image = floor_image
+        #initialization labyrinth list
+        self.lab = []
 
-    # géneration de la liste de liste labyrinth
-
+    #generation labyrinth list
     def generate_labyrinth (self):
-        #Ouverture fichier (ajouter des caractères à la place des sprites)
         with open('labyrinth.txt', "r") as labyrinth:
-            # Parcourt les lignes du fichier
             for line in labyrinth:
                 lign = []
-                # Parcourt les caractères du fichier
                 for char in line:
-                # On ignore fin de ligne
-                    if char != "\n":
-                        # Ajout caractère à la liste lign
+                    if char != '0' and char != '1' and char != "\n":
+                        print("error")
+                    elif char != "\n":
                         lign.append(char)
-                self.lab_complete.append(lign)
-
-    #initialisation du chemin sur lequel MacGyver, Guardian et Items pourront être
-    lab_pathway = []
-    for 
+                self.lab.append(lign)
 
 
-if __name__ == "__main__":
-    laby = Labyrinth()
-    laby.generate_labyrinth()
-    print(Labyrinth.lab_complete)
+
+# if __name__ == "__main__":
+#     laby = Labyrinth()
+#     laby.generate_labyrinth()
+#     print(Labyrinth.lab)
+#     print (Labyrinth.lab[14][0])
 
 
 
