@@ -36,7 +36,6 @@ class Guardian:
         self.guard_image = guard_image
 
 class Item:
-
     def __init__(self, case_y, case_x, image):
         self.case_y = case_y
         self.case_x = case_x
@@ -55,7 +54,7 @@ class Labyrinth:
         self.lab = []
 
     #generation labyrinth list
-    def generate_labyrinth (self):
+    def generate_labyrinth(self):
         with open('labyrinth.txt', "r") as labyrinth:
             for line in labyrinth:
                 lign = []
@@ -67,12 +66,14 @@ class Labyrinth:
                 self.lab.append(lign)
 
 
-
+#
+#
+#
 # if __name__ == "__main__":
-#     laby = Labyrinth()
+#     laby = Labyrinth("ss.png", "aa.png")
 #     laby.generate_labyrinth()
-#     print(Labyrinth.lab)
-#     print (Labyrinth.lab[14][0])
+#     print(laby.floor_list)
+#     # print (laby.floor_list[14][0])
 
 
 

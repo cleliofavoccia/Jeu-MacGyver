@@ -1,25 +1,25 @@
 import pygame
-import controller
 
 
 class Display:
-
     def __init__(self):
-        pygame.init()
+        self.pygame_init = pygame.init()
         self.window = pygame.display.set_mode((375, 375))
         self.sprite = 25
-        self.ctr = controller.Controller()
 
-    def load_image(self):
-        pygame.image.load(self.ctr.labyrinth.wall_image)
-        pygame.image.load(self.ctr.labyrinth.floor_image)
-        pygame.image.load(self.ctr.mac_gyver.mac_image)
-        pygame.image.load(self.ctr.guardian.guard_image)
+    def load_image(self, wall_image, floor_image, mac_image, guard_image, item1, item2, item3):
+        pygame.image.load(wall_image)
+        pygame.image.load(floor_image)
+        pygame.image.load(mac_image)
+        pygame.image.load(guard_image)
+        pygame.image.load(item1)
+        pygame.image.load(item2)
+        pygame.image.load(item3)
 
-    def map(self, controller):
+    def print_map(self, map, wall_image, floor_image):
         # # On parcourt la liste du niveau
         num_lign = 0
-        for lign in self.ctr.labyrinth.lab:
+        for lign in map:
             # On parcourt les listes de lignes
             num_case = 0
             for sprite in lign:
@@ -27,32 +27,26 @@ class Display:
                 x = num_case * self.sprite
                 y = num_lign * self.sprite
                 if sprite == '1':  # '1' = wall
-                    self.window.blit(self.ctr.labyrinth.wall_image, (x, y))
+                    self.window.blit(wall_image, (x, y))
                 elif sprite == '0':  # '0' = floor
-                    self.window.blit(self.ctr.labyrinth.floor_image, (x, y))
+                    self.window.blit(floor_image, (x, y))
 
             num_case += 1
         num_lign += 1
 
-
-    def mac(self):
+    def print_mac(self, mac_image, case_x, case_y):
         # Position en pixel
-        self.window.blit(self.ctr.mac_gyver.mac_image, \
-                         (self.ctr.mac_gyver.case_x * self.sprite, \
-                          self.ctr.mac_gyver.case_y * self.sprite))
+        self.window.blit(mac_image, (case_x * self.sprite, case_y * self.sprite))
 
-
-    def guard(self):
+    def print_guard(self, guard_image, case_x, case_y):
         # Position en pixel
-        self.window.blit(self.ctr.guardian.guard_image, \
-                         (self.ctr.guardian.case_x * self.sprite, \
-                          self.ctr.guardian.case_y * self.sprite))
+        self.window.blit(guard_image, (case_x * self.sprite, case_y * self.sprite))
 
+    def print_items(self, items):
+        for item in items:
+            # position en pixel
+            self.window.blit(items[item].image, (items[item].case_x * self.sprite, items[item].case_y * self.sprite))
 
-    def items(self):
-        # position en pixel
-        for item in self.ctr.items:
-            self.window.blit(item.png, (item.case_x * self.sprite, item.case_y * self.sprite))
 
 
 
