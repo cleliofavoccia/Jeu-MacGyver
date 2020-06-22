@@ -7,12 +7,6 @@ if __name__ == "__main__":
     controller = Controller()
     display = Display()
 
-    #Generate Labyrinth
-    controller.labyrinth.generate_labyrinth()
-
-    # Generate items
-    controller.generate_items()
-
     # Display
     controller.view()
 

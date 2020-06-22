@@ -23,8 +23,8 @@ class MacGyver:
         self.case_y = self.case_y + 1
 
     # drop items to inventory
-    def add_items(self, item):
-        self.inventory.append(item)
+    def add_items(self):
+        self.inventory.append('')
 
 
 class Guardian:
@@ -35,12 +35,13 @@ class Guardian:
         # image
         self.guard_image = guard_image
 
+
 class Item:
     def __init__(self, case_y, case_x, image):
         self.case_y = case_y
         self.case_x = case_x
         self.image = image
-        self.is_collected = False
+
 
 class Labyrinth:
 
