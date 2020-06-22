@@ -1,11 +1,10 @@
-
+"""Execute the game"""
 from controller import Controller
-from display import Display
-from model import Labyrinth
 
 if __name__ == "__main__":
+    """Call of methods view and game_loop
+    from Controller class to execute the game"""
     controller = Controller()
-    display = Display()
 
     # Display
     controller.view()
