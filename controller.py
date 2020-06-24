@@ -47,6 +47,12 @@ class Controller:
         self.dsp.print_guard(self.guardian.case_x, self.guardian.case_y)
         self.dsp.print_items(self.items)
         self.dsp.print_counter_items(self.dsp.counter_text)
+        if self.win is True:
+            # Print "YOU WIN"
+            self.dsp.print_result(self.dsp.win_text)
+        if not self.mac_is_alive:
+            # Print "YOU ARE DEAD"
+            self.dsp.print_result(self.dsp.loose_text)
         pygame.display.flip()
 
     def generate_items(self):
@@ -112,22 +118,14 @@ class Controller:
 
         # In case of victory
         if self.win is True:
-            # Print "YOU WIN"
-            self.dsp.print_result(self.dsp.win_text)
-            # Refresh window to see it
-            pygame.display.flip()
-            # Delay to have time to see it
+            # Delay to have time to see results
             pygame.time.delay(2000)
             # Game's close after delay
             self.game = 0
 
         # In case of death
         if not self.mac_is_alive:
-            # Print "YOU ARE DEAD"
-            self.dsp.print_result(self.dsp.loose_text)
-            # Refresh window to see it
-            pygame.display.flip()
-            # Delay to have time to see it
+            # Delay to have time to see results
             pygame.time.delay(2000)
             # Game's close after delay
             self.game = 0
@@ -191,3 +189,6 @@ class Controller:
             self.drop_item()
             self.counter_items()
             self.check_results()
+            # Recall view() to print
+            # results
+            self.view()
