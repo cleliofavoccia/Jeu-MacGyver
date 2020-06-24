@@ -119,14 +119,14 @@ class Controller:
         # In case of victory
         if self.win is True:
             # Delay to have time to see results
-            pygame.time.delay(2000)
+            pygame.time.delay(1000)
             # Game's close after delay
             self.game = 0
 
         # In case of death
         if not self.mac_is_alive:
             # Delay to have time to see results
-            pygame.time.delay(2000)
+            pygame.time.delay(1000)
             # Game's close after delay
             self.game = 0
 
@@ -182,8 +182,6 @@ class Controller:
             # Call methods view() to print
             # all objects in pygame window
             self.view()
-            # Refresh window
-            pygame.display.flip()
 
             # Check MacGyver action
             self.drop_item()
