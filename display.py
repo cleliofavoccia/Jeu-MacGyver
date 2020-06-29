@@ -42,8 +42,8 @@ class Display:
         self.floor_image = pygame.image.load(floor_image)
         self.mac_image = pygame.image.load(mac_image)
         self.guard_image = pygame.image.load(guard_image)
-        self.image = []
         # Load image for item in items list
+        self.image = []
         for i in range(len(list)):
             self.image.append(pygame.image.load(list[i].image))
 

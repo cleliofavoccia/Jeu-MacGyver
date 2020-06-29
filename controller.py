@@ -29,9 +29,12 @@ class Controller:
         # Display instance
         self.dsp = Display()
         # Model instances
-        self.mac_gyver = MacGyver(self.dsp.max_sprite, 0, "MacGyver.png")
-        self.guardian = Guardian(0, self.dsp.max_sprite, "Guardian.png")
-        self.labyrinth = Labyrinth("wall.png", "floor.png")
+        self.mac_gyver = MacGyver(self.dsp.max_sprite, 0,
+                                  "./images/MacGyver.png")
+        self.guardian = Guardian(0, self.dsp.max_sprite,
+                                 "./images/Guardian.png")
+        self.labyrinth = Labyrinth("./images/wall.png",
+                                   "./images/floor.png")
 
     def view(self):
         """Display of all objects on pygame window
@@ -66,7 +69,8 @@ class Controller:
         each time the game is opened"""
         number_of_items = 3
         # Image list
-        png = ["needle.png", "syringe.png", "tube.png"]
+        png = ["./images/needle.png", "./images/syringe.png",
+               "./images/tube.png"]
         # Generate x location list
         x_location = random.sample(range(self.dsp.max_sprite),
                                    number_of_items)
