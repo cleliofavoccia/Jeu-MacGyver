@@ -83,6 +83,7 @@ class Labyrinth:
                     if char not in ('0', '1', "\n"):
                         print("Error")
                     elif char != "\n":
-                        # Add characters in lab list
+                        # Add characters in lines list
                         lines.append(char)
+                # Add lines list in lab list
                 self.lab.append(lines)
